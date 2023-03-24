@@ -11,7 +11,6 @@ import (
 	"github.com/CircleCI-Public/circleci-cli/cmd/policy"
 	"github.com/CircleCI-Public/circleci-cli/cmd/project"
 	"github.com/CircleCI-Public/circleci-cli/cmd/runner"
-	"github.com/CircleCI-Public/circleci-cli/data"
 	"github.com/CircleCI-Public/circleci-cli/md_docs"
 	"github.com/CircleCI-Public/circleci-cli/settings"
 	"github.com/CircleCI-Public/circleci-cli/version"
@@ -19,11 +18,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var defaultEndpoint = "graphql-unstable"
-var defaultHost = "https://circleci.com"
-var defaultAPIHost = "https://api.circleci.com"
-var defaultRestEndpoint = "api/v2"
-var trueString = "true"
+var (
+	defaultEndpoint     = "graphql-unstable"
+	defaultHost         = "https://circleci.com"
+	defaultAPIHost      = "https://api.circleci.com"
+	defaultRestEndpoint = "api/v2"
+	trueString          = "true"
+
+	LinkNewAPIToken = "https://circleci.com/account/api"
+	LinkCLIDocs     = "https://circleci.com/docs/2.0/local-cli/"
+	LinkOrbDocs     = "https://circleci.com/docs/2.0/orb-intro/"
+)
 
 // rootCmd is used internally and global to the package but not exported
 // therefore we can use it in other commands, like `usage`
@@ -114,8 +119,6 @@ func MakeCommands() *cobra.Command {
 	if err := rootOptions.Load(); err != nil {
 		panic(err)
 	}
-
-	rootOptions.Data = &data.Data
 
 	rootCmd = &cobra.Command{
 		Use:   "circleci",
@@ -235,7 +238,7 @@ func validateToken(rootOptions *settings.Config) error {
 	)
 
 	if rootOptions.Host == defaultHost {
-		url = rootOptions.Data.Links.NewAPIToken
+		url = LinkNewAPIToken
 	} else {
 		url = fmt.Sprintf("%s/account/api", rootOptions.Host)
 	}
@@ -328,7 +331,7 @@ This project is the seed for CircleCI's new command-line application.`
 	}
 
 	return fmt.Sprintf(`%s
-For more help, see the documentation here: %s`, short, config.Data.Links.CLIDocs)
+For more help, see the documentation here: %s`, short, LinkCLIDocs)
 }
 
 type helpCmd struct {

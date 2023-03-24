@@ -388,7 +388,7 @@ func orbHelpLong(config *settings.Config) string {
 
 	return fmt.Sprintf(`Operate on orbs
 
-See a full explanation and documentation on orbs here: %s`, config.Data.Links.OrbDocs)
+See a full explanation and documentation on orbs here: %s`, LinkOrbDocs)
 }
 
 // Transform a boolean parameter into a string. Because the value can be a boolean but can also be
