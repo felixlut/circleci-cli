@@ -16,8 +16,6 @@ import (
 	"time"
 
 	yaml "gopkg.in/yaml.v3"
-
-	"github.com/CircleCI-Public/circleci-cli/data"
 )
 
 // Config is used to represent the current state of a CLI instance.
@@ -30,7 +28,6 @@ type Config struct {
 	TLSCert         string            `yaml:"tls_cert"`
 	TLSInsecure     bool              `yaml:"tls_insecure"`
 	HTTPClient      *http.Client      `yaml:"-"`
-	Data            *data.DataBag     `yaml:"-"`
 	Debug           bool              `yaml:"-"`
 	Address         string            `yaml:"-"`
 	FileUsed        string            `yaml:"-"`
