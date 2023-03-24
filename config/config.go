@@ -33,7 +33,6 @@ type Options struct {
 	PipelineValues     map[string]string      `json:"pipeline_values,omitempty"`
 }
 
-// #nosec
 func loadYaml(path string) (string, error) {
 	var err error
 	var config []byte
