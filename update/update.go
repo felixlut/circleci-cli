@@ -93,7 +93,7 @@ func checkFromHomebrew(check *Options) error {
 		return errors.Wrap(err, "Expected to find `brew` in your $PATH but wasn't able to find it")
 	}
 
-	command := exec.Command(brew, "outdated", "--json=v2") // #nosec
+	command := exec.Command(brew, "outdated", "--json=v2")
 	out, err := command.Output()
 	if err != nil {
 		return errors.Wrap(err, "failed to check for updates. `brew outdated --json=v2` returned an error")

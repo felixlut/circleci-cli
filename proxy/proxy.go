@@ -18,6 +18,6 @@ func Exec(command []string, args []string) error {
 	arguments := append([]string{agent}, command...)
 	arguments = append(arguments, args...)
 
-	err = syscall.Exec(agent, arguments, os.Environ()) // #nosec
+	err = syscall.Exec(agent, arguments, os.Environ())
 	return errors.Wrapf(err, "failed to proxy command %s, expected this to be called inside a job", command)
 }

@@ -62,7 +62,7 @@ func (upd *UpdateCheck) Load() error {
 
 	upd.FileUsed = path
 
-	content, err := ioutil.ReadFile(path) // #nosec
+	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
 	}
@@ -103,7 +103,7 @@ func (cfg *Config) LoadFromDisk() error {
 
 	cfg.FileUsed = path
 
-	content, err := ioutil.ReadFile(path) // #nosec
+	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
 	}

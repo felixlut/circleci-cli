@@ -96,7 +96,7 @@ func Execute(flags *pflag.FlagSet, cfg *settings.Config, args []string) error {
 		return errors.Wrap(err, "Could not find a `docker` executable on $PATH; please ensure that docker installed")
 	}
 
-	err = syscall.Exec(dockerPath, arguments, os.Environ()) // #nosec
+	err = syscall.Exec(dockerPath, arguments, os.Environ())
 	return errors.Wrap(err, "failed to execute docker")
 }
 
@@ -191,7 +191,7 @@ func ensureDockerIsAvailable() (string, error) {
 		return "", errors.New("could not find `docker` on the PATH; please ensure that docker is installed")
 	}
 
-	dockerRunning := exec.Command(dockerPath, "version").Run() == nil // #nosec
+	dockerRunning := exec.Command(dockerPath, "version").Run() == nil
 
 	if !dockerRunning {
 		return "", errors.New("failed to connect to docker; please ensure that docker is running, and that `docker version` succeeds")
@@ -207,7 +207,7 @@ func findLatestPicardSha() (string, error) {
 		return "", err
 	}
 
-	outputBytes, err := exec.Command("docker", "pull", picardRepo).CombinedOutput() // #nosec
+	outputBytes, err := exec.Command("docker", "pull", picardRepo).CombinedOutput()
 
 	if err != nil {
 		return "", errors.Wrap(err, "failed to pull latest docker image")

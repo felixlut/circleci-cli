@@ -479,7 +479,6 @@ type FollowedProject struct {
 	Message  string `json:"message"`
 }
 
-// #nosec
 func loadYaml(path string) (string, error) {
 	var err error
 	var config []byte
