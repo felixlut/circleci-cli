@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/CircleCI-Public/circleci-cli/api/rest"
@@ -33,6 +33,7 @@ type configOptions struct {
 // Used to for compatibility with `circleci config validate --path`
 var configPath string
 var ignoreDeprecatedImages bool // should we ignore deprecated images warning
+var verboseOutput bool          // Enable extra debugging output
 
 var configAnnotations = map[string]string{
 	"<path>": "The path to your config (use \"-\" for STDIN)",
@@ -86,6 +87,7 @@ func newConfigCommand(config *settings.Config) *cobra.Command {
 	}
 	validateCommand.Annotations["<path>"] = configAnnotations["<path>"]
 	validateCommand.PersistentFlags().StringVarP(&configPath, "config", "c", ".circleci/config.yml", "path to config file")
+	validateCommand.PersistentFlags().BoolVarP(&verboseOutput, "verbose", "v", false, "Enable verbose output")
 	validateCommand.PersistentFlags().BoolVar(&ignoreDeprecatedImages, "ignore-deprecated-images", false, "ignores the deprecated images error")
 	if err := validateCommand.PersistentFlags().MarkHidden("config"); err != nil {
 		panic(err)
@@ -153,8 +155,9 @@ func validateConfig(opts configOptions, flags *pflag.FlagSet) error {
 
 	//if no orgId provided use org slug
 	values := pipeline.LocalPipelineValues()
-	fmt.Println("Validating config with following values")
-	printValues(values)
+	if verboseOutput {
+		printValues(values)
+	}
 
 	var orgID string
 	orgID, _ = flags.GetString("org-id")
@@ -204,7 +207,7 @@ func processConfig(opts configOptions, flags *pflag.FlagSet) error {
 	if len(paramsYaml) > 0 {
 		// The 'src' value can be a filepath, or a yaml string. If the file cannot be read successfully,
 		// proceed with the assumption that the value is already valid yaml.
-		raw, err := ioutil.ReadFile(paramsYaml)
+		raw, err := os.ReadFile(paramsYaml)
 		if err != nil {
 			raw = []byte(paramsYaml)
 		}
@@ -217,7 +220,6 @@ func processConfig(opts configOptions, flags *pflag.FlagSet) error {
 
 	//if no orgId provided use org slug
 	values := pipeline.LocalPipelineValues()
-	fmt.Println("Processing config with following values")
 	printValues(values)
 
 	orgID, _ := flags.GetString("org-id")
@@ -262,8 +264,9 @@ func migrateConfig(opts configOptions) error {
 }
 
 func printValues(values pipeline.Values) {
+	fmt.Fprintln(os.Stderr, "Processing config with following values:")
 	for key, value := range values {
-		fmt.Printf("\t%s:\t%s", key, value)
+		fmt.Fprintf(os.Stderr, "%-18s %s\n", key+":", value)
 	}
 }
 
