@@ -36,7 +36,7 @@ type Config struct {
 	GitHubAPI       string            `yaml:"-"`
 	SkipUpdateCheck bool              `yaml:"-"`
 	OrbPublishing   OrbPublishingInfo `yaml:"orb_publishing"`
-	TmpMount        string            `yaml:"tmp_mount"`
+	TempDir         string            `yaml:"temp_dir"`
 }
 
 type OrbPublishingInfo struct {
